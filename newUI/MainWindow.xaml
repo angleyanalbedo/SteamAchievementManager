@@ -5,8 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:newUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="450" Width="800"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource MaterialDesignWindow}">
+
+    <Grid Margin="16">
+        <!-- 一张卡片实现上下结构 -->
+        <materialDesign:Card Padding="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!-- 上方：一行多个元素 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 下方：列表 -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 1. 上方：标题 + 按钮 -->
+                <ToolBarTray Grid.Row="0" Background="Transparent">
+                    <ToolBar Style="{StaticResource MaterialDesignToolBar}" ClipToBounds="False">
+                        <TextBlock Text="订单列表"
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                   VerticalAlignment="Center"/>
+                        <Separator/>
+                        <Button Content="新增"
+                                ToolTip="新增订单"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                />
+                        <Button Content="刷新"
+                                ToolTip="刷新列表"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                />
+                    </ToolBar>
+                </ToolBarTray>
+
+                <!-- 2. 下方：列表 -->
+                <ListView Grid.Row="1"
+                          ItemsSource="{Binding Orders}"
+                          BorderThickness="0"
+                          >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="编号"
+                                            DisplayMemberBinding="{Binding Id}"
+                                            Width="60"/>
+                            <GridViewColumn Header="客户"
+                                            DisplayMemberBinding="{Binding Customer}"
+                                            Width="120"/>
+                            <GridViewColumn Header="金额"
+                                            DisplayMemberBinding="{Binding Amount, StringFormat={}{0:C}}"
+                                            Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </materialDesign:Card>
     </Grid>
 </Window>
